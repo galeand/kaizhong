@@ -1,0 +1,30 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: kaizhong
+    eureka:
+      instance:
+        prefer-ip-address: true # 注册时使用ip地址
+        client:
+#          register-with-eureka: false # 不把自己注册到eureka上面
+#          fetch-registry: false # 不从服务器上面来获取注册信息
+          service-url:
+            default-Zone: http://localhost:8761/eureka/
+
+# 这里的配置表示,访问 /it/** 会直接重定向到 http://www.ityouknow.com/**
+zuul:
+  routes:
+    hello:
+      path: /hello/**
+      url: http://www.ityouknow.com/
+#    api-a:
+#      path: /hello/**
+#      serviceId: provider-ticket
+
+#  通过url映射的方式来实现zull的转发有局限性，比如每增加一个服务就需要配置一条内容，另外后端的服务如果是动态来提供，
+#  就不能采用这种方案来配置了。实际上在实现微服务架构时，服务名与服务实例地址的关系在eureka server中已经存在了，
+#  所以只需要将Zuul注册到eureka server上去发现其他服务，就可以实现对serviceId的映射。
+#  zuul.routes.api-a.path=/producer/**
+#  zuul.routes.api-a.serviceId=spring-cloud-producer

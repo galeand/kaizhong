@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>日志</title>
+    <meta http-equiv="Content-type" name="viewport"
+          content="initial-scale=1.0, width=device-width">
+</head>
+<body>
+<h3 style="margin: 30px 30px 10px">日志记录:</h3>
+<hr/>
+<h4 style="margin: 5px 30px" th:text="${log}" th:each="log:${logs}"></h4>
+
+<hr/>
+<a href="/druid" style="font-size: 18px">总监视台</a>
+</body>
+</html>

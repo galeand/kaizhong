@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0"/>-->
+    <title>首页</title>
+    <meta http-equiv="Content-type" name="viewport"
+          content="initial-scale=1.0, width=device-width">
+</head>
+<body>
+<center>
+<h3 style="margin: 30px 30px 10px">开中校2015届毕业生去向(大学，专业)查询:</h3>
+<form action="/kaizhong" method="post">
+    <input style="margin-left: 30px;width: auto;border-radius: 5px;height: 30px" type="text" name="name" placeholder="输入姓名或学校或专业">
+    <input type="submit" style="height: 30px" value="确定">
+</form>
+<p style="margin-left: 30px">(以专业查询注意格式，如:车辆工程专业)</p>
+</center>
+<hr/>
+<p style="margin: 5px 30px" th:text="${num}"></p>
+<h4 style="margin: 5px 30px" th:text="${student}" th:each="student:${students}"></h4>
+<hr/>
+<center>
+    <a href="/login.html" style="font-size: 18px">点击查看日志</a>
+</center>
+</body>
+</html>
