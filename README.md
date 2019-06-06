@@ -1,2 +1,2 @@
 # kaizhong
-kz查询备份，使用的mybatis操作数据库
+kz查询备份，使用的JdbcTemplate模板操作数据库
