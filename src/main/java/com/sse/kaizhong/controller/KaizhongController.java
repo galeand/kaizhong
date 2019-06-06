@@ -2,6 +2,7 @@ package com.sse.kaizhong.controller;
 
 import com.sse.kaizhong.service.KaizhongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ public class KaizhongController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Qualifier("service02")
     @Autowired
     private KaizhongService queryService;
 
@@ -99,14 +102,14 @@ public class KaizhongController {
 
     @ResponseBody
     @GetMapping("/rpckz")
-    public String rpcQuery(@RequestParam String key) {
-        key = key.trim();
-        if (key.endsWith("大学") || key.endsWith("学院")) {
-            return queryService.queryStudentByCollege(key).toString();
-        } else if (key.endsWith("专业")) {
-            return queryService.queryStudentByMajor(key).toString();
+    public String rpcQuery(@RequestParam String content) {
+        content = content.trim();
+        if (content.endsWith("大学") || content.endsWith("学院")) {
+            return queryService.queryStudentByCollege(content).toString();
+        } else if (content.endsWith("专业")) {
+            return queryService.queryStudentByMajor(content).toString();
         } else {
-            return queryService.queryStudentByName(key).toString();
+            return queryService.queryStudentByName(content).toString();
         }
     }
 }

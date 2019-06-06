@@ -14,6 +14,7 @@ spring:
             default-Zone: http://localhost:8761/eureka/
 
 # 这里的配置表示,访问 /it/** 会直接重定向到 http://www.ityouknow.com/**
+# zuul有一个很大的问题是不支持长连接，所以使用gateway在长连接方面会更好
 zuul:
   routes:
     hello:
