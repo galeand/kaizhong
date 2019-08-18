@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.sse'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -29,8 +29,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -47,3 +47,33 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+//清除上次的编译过的文件
+
+task clearPj(type: Delete) {
+
+    delete 'build', 'target'
+
+}
+
+
+task copyJar(type: Copy) {
+
+    from configurations.runtime
+
+    into('build/libs/lib')
+
+}
+
+//把JAR复制到目标目录
+
+
+task release(type: Copy, dependsOn: [build, copyJar]) {
+
+// from 'conf'
+
+// into ('build/libs/eachend/conf') // 目标位置
+
+} 
+
+

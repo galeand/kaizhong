@@ -1,6 +1,10 @@
 package com.sse.kaizhong.controller;
 
+import com.sse.kaizhong.bean.Friend;
+import com.sse.kaizhong.service.FriendService;
 import com.sse.kaizhong.service.KaizhongService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +16,7 @@ import java.util.*;
 
 @Controller
 public class KaizhongController {
+    private static final Logger logger = LoggerFactory.getLogger(KaizhongController.class);
     private static List<String> logsList = new ArrayList<>(100);
 
     @Autowired
@@ -21,11 +26,34 @@ public class KaizhongController {
     @Autowired
     private KaizhongService queryService;
 
-    @ResponseBody
-    @RequestMapping("/query")
-    public Map<String, Object> query() {
-        Map<String, Object> map = jdbcTemplate.queryForMap("select * from kaizhongs WHERE `姓名` = '曾云莲'");
-        return map;
+    @Autowired
+    private FriendService friendService;
+
+//    @ResponseBody
+//    @RequestMapping("/query")
+//    public Map<String, Object> query() {
+//        Map<String, Object> map = jdbcTemplate.queryForMap("select * from kaizhongs WHERE `姓名` = '曾云莲'");
+//        return map;
+//    }
+
+    @RequestMapping("/searchfriend")
+    public String searchMyFriend(Map<String,Object> map,@RequestParam("name") String name){
+        List<String> list = friendService.getOneFriend(name);
+        list.remove(0);//第一个存的有多少条记录
+        list.forEach(friend -> {
+            map.put("friends", list);
+        });
+        return "searchfriend";
+    }
+
+    @RequestMapping("/friend")
+    public String getMyFriendInfo(Map<String, Object> map) {
+        List<String> list = friendService.getFriends();
+        list.remove(0);//第一个存的有多少条记录
+        list.forEach(friend -> {
+            map.put("friends", list);
+        });
+        return "friends";
     }
 
 
@@ -34,6 +62,7 @@ public class KaizhongController {
         String choose = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(new Date());
+        logger.info("查询关键字：{}", name);
         name = name.trim();
         if (name.length() > 0) {
             logsList.add("关键字：" + name + "  ;查询时间:" + time);

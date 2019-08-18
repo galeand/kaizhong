@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface KaizhongMapper {
 
-    @Results(id = "kaizhongMap", value = {@Result(column = "录取时间", property = "admissionTime"),
+    @Results(id = "kzMap", value = {@Result(column = "录取时间", property = "admissionTime"),
             @Result(column = "姓名", property = "name"),
             @Result(column = "录取", property = "admission"),
             @Result(column = "a", property = "a"),
@@ -29,13 +29,15 @@ public interface KaizhongMapper {
     @Select("SELECT * FROM kaizhongs WHERE `姓名` LIKE CONCAT('%',#{name},'%')")
     List<Kaizhong> getStudentByName(String name);
 
-    @ResultMap(value = "kaizhongMap")
+    @ResultMap(value = "kzMap")
     @Select("select `录取大学`,`专业`,`姓名`,`录取类型` from kaizhongs where `录取大学` like concat('%',#{college},'%')")
     List<Kaizhong> getStudentByCollege(String college);
 
-    @ResultMap(value = "kaizhongMap")
+    @ResultMap(value = "kzMap")
     @Select("select `录取大学`,`专业`,`姓名` from kaizhongs where `专业` like concat('%',#{major},'%')")
     List<Kaizhong> getStudentByMajor(String major);
+
+
 
 
 }
