@@ -57,7 +57,9 @@ public class KaizhongServiceImpl02 implements KaizhongService {
         if (list.size() > 0) {
             res.add(String.valueOf(list.size()));
             for (Kaizhong k : list) {
-                res.add(k.toString());
+//                res.add(k.toString());
+                String mid = "【 姓名：" + k.getName() + ";录取大学：" + k.getAdmissionCollege() + ";专业：" + k.getMajor() + "；录取类型：" + k.getAdmissionType() + " 】";
+                res.add(mid);
             }
         }
         return res;
@@ -69,7 +71,10 @@ public class KaizhongServiceImpl02 implements KaizhongService {
         if (list.size() > 0) {
             res.add(String.valueOf(list.size()));
             for (Kaizhong k : list) {
-                res.add(k.toString());
+//                res.add(k.toString());
+                String mid = "【 录取专业：" + k.getMajor() + "；录取大学：" + k.getAdmissionCollege() + "；姓名：" + k.getName() + " 】";
+                res.add(mid);
+
             }
         }
         return res;

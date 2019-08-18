@@ -10,4 +10,6 @@ public interface KaizhongService {
 
     List<String> queryStudentByMajor(String majorName);
 
+
+
 }

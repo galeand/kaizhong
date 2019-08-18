@@ -4,22 +4,22 @@ server:
 spring:
   application:
     name: kaizhong
-    eureka:
-      instance:
-        prefer-ip-address: true # 注册时使用ip地址
-        client:
-#          register-with-eureka: false # 不把自己注册到eureka上面
-#          fetch-registry: false # 不从服务器上面来获取注册信息
-          service-url:
-            default-Zone: http://localhost:8761/eureka/
+#    eureka:
+#      instance:
+#        prefer-ip-address: true # 注册时使用ip地址
+#        client:
+##          register-with-eureka: false # 不把自己注册到eureka上面
+##          fetch-registry: false # 不从服务器上面来获取注册信息
+#          service-url:
+#            default-Zone: http://localhost:8761/eureka/
 
 # 这里的配置表示,访问 /it/** 会直接重定向到 http://www.ityouknow.com/**
 # zuul有一个很大的问题是不支持长连接，所以使用gateway在长连接方面会更好
-zuul:
-  routes:
-    hello:
-      path: /hello/**
-      url: http://www.ityouknow.com/
+#zuul:
+#  routes:
+#    hello:
+#      path: /hello/**
+#      url: http://www.ityouknow.com/
 #    api-a:
 #      path: /hello/**
 #      serviceId: provider-ticket

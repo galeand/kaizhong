@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Friends</title>
+</head>
+<body>
+<center>
+    <h2>我的同学都在哪里读大学</h2>
+    <form action="/searchfriend" method="post">
+        <input style="margin-left: 30px;width: auto;border-radius: 5px;height: 28px" type="text" name="name" placeholder="输入姓名查询具体信息">
+        <input type="submit" style="height: 30px" value="确定">
+    </form>
+</center>
+<hr/>
+<h4 style="margin: 5px 30px" th:text="${friend}" th:each="friend:${friends}"></h4>
+<hr/>
+</body>
+</html>
