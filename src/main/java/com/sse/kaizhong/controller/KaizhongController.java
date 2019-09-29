@@ -1,7 +1,12 @@
 package com.sse.kaizhong.controller;
 
+import com.sse.kaizhong.bean.Friend;
+import com.sse.kaizhong.service.FriendService;
 import com.sse.kaizhong.service.KaizhongService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +16,84 @@ import java.util.*;
 
 @Controller
 public class KaizhongController {
+    private static final Logger logger = LoggerFactory.getLogger(KaizhongController.class);
     private static List<String> logsList = new ArrayList<>(100);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Qualifier("service02")
     @Autowired
     private KaizhongService queryService;
 
-    @ResponseBody
-    @RequestMapping("/query")
-    public Map<String, Object> query() {
-        Map<String, Object> map = jdbcTemplate.queryForMap("select * from kaizhongs WHERE `姓名` = '曾云莲'");
-        return map;
+    @Autowired
+    private FriendService friendService;
+
+
+    //    @ResponseBody
+    @RequestMapping("/add")
+    public String addFriendInfo(Map<String, Object> map,
+                                @RequestParam("name") String name,
+                                @RequestParam("collegeName") String collegeName,
+                                @RequestParam("major") String major,
+                                @RequestParam("relationship") String relationship,
+                                @RequestParam("postgraduate_college") String postgraduate_college,
+                                @RequestParam("postgraduate_major") String postgraduate_major,
+                                @RequestParam("postgraduate_academy") String postgraduate_academy,
+                                @RequestParam("moreinfo") String moreinfo) {
+        Friend friend = new Friend(collegeName, major, name, relationship, postgraduate_college, postgraduate_academy, postgraduate_major, moreinfo);
+        System.out.println(friend.toString());
+        Boolean res = friendService.insertFriend(friend);
+        if (res) {
+            List<String> list = friendService.getFriends();
+            list.remove(0);//第一个存的有多少条记录
+            list.forEach(val -> {
+                map.put("friends", list);
+            });
+            return "friends";
+        }
+        return "friends";
+    }
+
+    public String editFriendInfo(Map<String, Object> map,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("collegeName") String collegeName,
+                                 @RequestParam("major") String major,
+                                 @RequestParam("relationship") String relationship,
+                                 @RequestParam("postgraduate_college") String postgraduate_college,
+                                 @RequestParam("postgraduate_major") String postgraduate_major,
+                                 @RequestParam("postgraduate_academy") String postgraduate_academy,
+                                 @RequestParam("moreinfo") String moreinfo) {
+
+
+        return null;
+    }
+
+    @RequestMapping("/searchfriend")
+    public String searchMyFriend(Map<String, Object> map, @RequestParam("name") String name) {
+        name = name.trim();
+        List<String> list = friendService.getOneFriend(name);
+        System.out.println(name);
+        if (list.size() <= 0) {
+            map.put("friends", Arrays.asList("输入有误或查无此人！", "请按照下面列出的人名进行搜索"));
+
+        } else {
+            list.remove(0);//第一个存的有多少条记录
+            list.forEach(friend -> {
+                map.put("friends", list);
+            });
+        }
+        return "searchfriend";
+    }
+
+    @RequestMapping("/friend")
+    public String getMyFriendInfo(Map<String, Object> map) {
+        List<String> list = friendService.getFriends();
+        list.remove(0);//第一个存的有多少条记录
+        list.forEach(friend -> {
+            map.put("friends", list);
+        });
+        return "friends";
     }
 
 
@@ -31,6 +102,7 @@ public class KaizhongController {
         String choose = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(new Date());
+        logger.info("查询关键字：{}", name);
         name = name.trim();
         if (name.length() > 0) {
             logsList.add("关键字：" + name + "  ;查询时间:" + time);
@@ -99,14 +171,14 @@ public class KaizhongController {
 
     @ResponseBody
     @GetMapping("/rpckz")
-    public String rpcQuery(@RequestParam String key) {
-        key = key.trim();
-        if (key.endsWith("大学") || key.endsWith("学院")) {
-            return queryService.queryStudentByCollege(key).toString();
-        } else if (key.endsWith("专业")) {
-            return queryService.queryStudentByMajor(key).toString();
+    public String rpcQuery(@RequestParam String content) {
+        content = content.trim();
+        if (content.endsWith("大学") || content.endsWith("学院")) {
+            return queryService.queryStudentByCollege(content).toString();
+        } else if (content.endsWith("专业")) {
+            return queryService.queryStudentByMajor(content).toString();
         } else {
-            return queryService.queryStudentByName(key).toString();
+            return queryService.queryStudentByName(content).toString();
         }
     }
 }

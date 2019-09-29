@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑同学信息</title>
+
+    <!-- css files -->
+    <link href="../static/css/bootstrap.css" rel='stylesheet' type='text/css' ><!-- bootstrap css -->
+    <link href="../static/css/style.css" rel='stylesheet' type='text/css' ><!-- custom css -->
+    <link href="../static/css/fontawesome-all.css" rel="stylesheet" ><!-- fontawesome css -->
+    <!-- //css files -->
+    <meta http-equiv="Content-type" name="viewport"
+          content="initial-scale=1.0, width=device-width">
+</head>
+<body>
+<center>
+    <h3 style="margin: 30px 30px 10px">添加朋友信息</h3>
+</center>
+<hr/>
+<center>
+    <div class="col-lg-4 col-md-8 mt-lg-0 mt-5 banner-form" data-aos="fade-left">
+        <form action="/edit" class="mt-4" method="post">
+            <input class="form-control" type="text" name="name" placeholder="输入姓名" required=""/>
+            <input class="form-control" type="text" name="collegeName" placeholder="大学名称" required=""/>
+            <input class="form-control" type="text" name="major" placeholder="大学专业" />
+            <input class="form-control" type="text" name="relationship" placeholder="同学关系" />
+            <input class="form-control" type="text" name="moreinfo" placeholder="更多信息" required=""/>
+            <input class="form-control" type="text" name="postgraduate_college" placeholder="研究生学校" />
+            <input class="form-control" type="text" name="postgraduate_major" placeholder="研究生专业" />
+            <input class="form-control" type="text" name="postgraduate_academy" placeholder="研究生学院" />
+            <input class="form-control text-capitalize" type="submit" value="确定">
+        </form>
+    </div>
+</center>
+<hr/>
+
+</body>
+</html>
