@@ -29,20 +29,60 @@ public class KaizhongController {
     @Autowired
     private FriendService friendService;
 
-//    @ResponseBody
-//    @RequestMapping("/query")
-//    public Map<String, Object> query() {
-//        Map<String, Object> map = jdbcTemplate.queryForMap("select * from kaizhongs WHERE `姓名` = '曾云莲'");
-//        return map;
-//    }
+
+    //    @ResponseBody
+    @RequestMapping("/add")
+    public String addFriendInfo(Map<String, Object> map,
+                                @RequestParam("name") String name,
+                                @RequestParam("collegeName") String collegeName,
+                                @RequestParam("major") String major,
+                                @RequestParam("relationship") String relationship,
+                                @RequestParam("postgraduate_college") String postgraduate_college,
+                                @RequestParam("postgraduate_major") String postgraduate_major,
+                                @RequestParam("postgraduate_academy") String postgraduate_academy,
+                                @RequestParam("moreinfo") String moreinfo) {
+        Friend friend = new Friend(collegeName, major, name, relationship, postgraduate_college, postgraduate_academy, postgraduate_major, moreinfo);
+        System.out.println(friend.toString());
+        Boolean res = friendService.insertFriend(friend);
+        if (res) {
+            List<String> list = friendService.getFriends();
+            list.remove(0);//第一个存的有多少条记录
+            list.forEach(val -> {
+                map.put("friends", list);
+            });
+            return "friends";
+        }
+        return "friends";
+    }
+
+    public String editFriendInfo(Map<String, Object> map,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("collegeName") String collegeName,
+                                 @RequestParam("major") String major,
+                                 @RequestParam("relationship") String relationship,
+                                 @RequestParam("postgraduate_college") String postgraduate_college,
+                                 @RequestParam("postgraduate_major") String postgraduate_major,
+                                 @RequestParam("postgraduate_academy") String postgraduate_academy,
+                                 @RequestParam("moreinfo") String moreinfo) {
+
+
+        return null;
+    }
 
     @RequestMapping("/searchfriend")
-    public String searchMyFriend(Map<String,Object> map,@RequestParam("name") String name){
+    public String searchMyFriend(Map<String, Object> map, @RequestParam("name") String name) {
+        name = name.trim();
         List<String> list = friendService.getOneFriend(name);
-        list.remove(0);//第一个存的有多少条记录
-        list.forEach(friend -> {
-            map.put("friends", list);
-        });
+        System.out.println(name);
+        if (list.size() <= 0) {
+            map.put("friends", Arrays.asList("输入有误或查无此人！", "请按照下面列出的人名进行搜索"));
+
+        } else {
+            list.remove(0);//第一个存的有多少条记录
+            list.forEach(friend -> {
+                map.put("friends", list);
+            });
+        }
         return "searchfriend";
     }
 

@@ -15,6 +15,23 @@ public class FriendServiceImpl implements FriendService {
     @Autowired
     private FriendMapper friendMapper;
 
+    @Override
+    public Boolean insertFriend(Friend friend) {
+        System.out.println("111"+friend.toString());
+        Boolean isSuccess = friendMapper.insertFriend(
+                friend.getCollegeName(),
+                friend.getMajor(),
+                friend.getName(),
+                friend.getRelationship(),
+                friend.getGraduateSchool(),
+                friend.getGraduateSchool_academy(),
+                friend.getGraduateSchool_major(),
+                friend.getMoreInfo());
+        if (isSuccess) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public List<String> getAllFriends() {
@@ -46,7 +63,7 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<String> getOneFriend(String name){ //getOneFriend
+    public List<String> getOneFriend(String name) { //getOneFriend
         List<Friend> friendList = friendMapper.getOneFriend(name);
         List<String> res = new ArrayList<>();
         if (friendList.size() > 0) {

@@ -11,6 +11,22 @@ public class Friend {
     private String moreInfo;
 
 
+    public Friend(String collegeName, String major, String name, String relationship, String graduateSchool, String graduateSchool_academy, String graduateSchool_major, String moreInfo) {
+        this.collegeName = collegeName;
+        this.major = major;
+        this.name = name;
+        this.relationship = relationship;
+        this.graduateSchool = graduateSchool;
+        this.graduateSchool_academy = graduateSchool_academy;
+        this.graduateSchool_major = graduateSchool_major;
+        this.moreInfo = moreInfo;
+    }
+
+    public Friend(String name, String moreInfo) {
+        this.name = name;
+        this.moreInfo = moreInfo;
+    }
+
     @Override
     public String toString() {
         return "Friend{" +
@@ -23,14 +39,6 @@ public class Friend {
                 ", graduateSchool_major='" + graduateSchool_major + '\'' +
                 ", moreInfo='" + moreInfo + '\'' +
                 '}';
-    }
-
-    public String getGraduateSchool_academy() {
-        return graduateSchool_academy;
-    }
-
-    public void setGraduateSchool_academy(String graduateSchool_academy) {
-        this.graduateSchool_academy = graduateSchool_academy;
     }
 
     public String getCollegeName() {
@@ -71,6 +79,14 @@ public class Friend {
 
     public void setGraduateSchool(String graduateSchool) {
         this.graduateSchool = graduateSchool;
+    }
+
+    public String getGraduateSchool_academy() {
+        return graduateSchool_academy;
+    }
+
+    public void setGraduateSchool_academy(String graduateSchool_academy) {
+        this.graduateSchool_academy = graduateSchool_academy;
     }
 
     public String getGraduateSchool_major() {
