@@ -2,7 +2,9 @@ package com.sse.kaizhong.controller;
 
 import com.sse.kaizhong.bean.Friend;
 import com.sse.kaizhong.service.FriendService;
+import com.sse.kaizhong.service.IpRecordService;
 import com.sse.kaizhong.service.KaizhongService;
+import com.sse.kaizhong.uitl.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -28,6 +31,9 @@ public class KaizhongController {
 
     @Autowired
     private FriendService friendService;
+
+    @Autowired
+    private IpRecordService ipRecordService;
 
 
     //    @ResponseBody
@@ -98,11 +104,20 @@ public class KaizhongController {
 
 
     @RequestMapping("/kz")
-    public String queryFromKaizhong(Map<String, Object> map, @RequestParam("name") String name) {
+    public String queryFromKaizhong(Map<String, Object> map,
+                                    @RequestParam("name") String name,
+                                    HttpServletRequest request) {
         String choose = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(new Date());
         logger.info("查询关键字：{}", name);
+
+        //记录查询ip，对应解析ip地址对应的物理地址
+        logger.info("request:{}", request);
+        String ip = IpUtil.getIpAddr(request);
+        logger.info("请求的ip:{}", ip);
+        ipRecordService.execute(ip, name);
+
         name = name.trim();
         if (name.length() > 0) {
             logsList.add("关键字：" + name + "  ;查询时间:" + time);
