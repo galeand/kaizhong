@@ -1,5 +1,7 @@
 package com.sse.kaizhong.service;
 
+import java.util.List;
+
 /**
  * @name: IpRecordService
  * @author: xiangyf
@@ -8,5 +10,6 @@ package com.sse.kaizhong.service;
  */
 public interface IpRecordService {
 
-    Boolean execute(String ip, String keyWord);
+    Boolean execute(String ip, String keyWord, List<String> deviceInfo);
+
 }

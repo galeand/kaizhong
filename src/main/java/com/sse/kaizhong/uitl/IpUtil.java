@@ -1,7 +1,12 @@
 package com.sse.kaizhong.uitl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @name: IpUtil
@@ -10,6 +15,7 @@ import java.net.InetAddress;
  * @description:
  */
 public class IpUtil {
+    private static final Logger logger = LoggerFactory.getLogger(IpUtil.class);
 
     public static String getIpAddr(HttpServletRequest request){
         String ipAddr = null;
@@ -40,5 +46,29 @@ public class IpUtil {
             ipAddr = "";
         }
         return ipAddr;
+    }
+
+    public static List<String> getDeviceAndOS(HttpServletRequest request){
+        String header = request.getHeader("User-Agent");
+        logger.info("用户请求头:{}",header);
+        String userInfo = header.substring(header.indexOf("(")+1, header.indexOf(")"));
+        String[] userInfoArr = userInfo.split(";");
+        String os = null;
+        String device = null;
+        if (userInfoArr.length >= 3){
+            //手机访问
+            os = userInfoArr[1] + "\t\t" + userInfoArr[0];
+            //这里获取手机设备型号时有问题，还没有太好的解决方法
+            device = userInfoArr[2];
+        }else if (userInfoArr.length == 2){
+            //浏览器访问
+            os = userInfoArr[1] + "\t\t" + userInfoArr[0];
+            device = "Brower";
+        }
+        List<String> list = new ArrayList<>();
+        list.add(header);
+        list.add(os);
+        list.add(device);
+        return list;
     }
 }

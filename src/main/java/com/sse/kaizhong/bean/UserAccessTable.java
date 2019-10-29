@@ -19,19 +19,53 @@ public class UserAccessTable {
     private String addressJson;
     private Date accessTime;
     private String keyWord;
-    private Time createdAt;
+    private String createdAt;
     private String possiblePersonName;
+    private String userAgent;
+    private String device;
+    private String os;
 
-    public Time getCreatedAt() {
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getOs() {
+        return os;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
+    }
+
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Time createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public UserAccessTable() {
-    }
+    //    public UserAccessTable() {
+//    }
+
+//    public UserAccessTable(String ip, String ipRealAddress, String keyWord, Time createdAt) {
+//        this.ip = ip;
+//        this.ipRealAddress = ipRealAddress;
+//        this.keyWord = keyWord;
+//        this.createdAt = createdAt;
+//    }
 
     public Integer getId() {
         return id;

@@ -15,8 +15,7 @@ public interface FriendMapper {
             @Result(column = "研究生学校", property = "graduateSchool"),
             @Result(column = "研究生院", property = "graduateSchool_academy"),
             @Result(column = "研究生专业", property = "graduateSchool_major"),
-            @Result(column = "MoreInfo", property = "moreInfo")
-    })
+            @Result(column = "MoreInfo", property = "moreInfo")})
     @Select("SELECT * FROM friend_college")
     List<Friend> getAllFriends();
 

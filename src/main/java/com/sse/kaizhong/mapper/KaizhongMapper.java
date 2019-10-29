@@ -36,8 +36,4 @@ public interface KaizhongMapper {
     @ResultMap(value = "kzMap")
     @Select("select `录取大学`,`专业`,`姓名` from kaizhongs where `专业` like concat('%',#{major},'%')")
     List<Kaizhong> getStudentByMajor(String major);
-
-
-
-
 }

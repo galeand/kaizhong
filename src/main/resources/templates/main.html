@@ -7,13 +7,16 @@
           content="initial-scale=1.0, width=device-width">
 </head>
 <body>
-<h3 style="margin: 30px 30px 10px">日志记录:</h3>
+<h3 style="margin: 30px 30px 10px">访问日志记录:</h3>
 <hr/>
 <h4 style="margin: 5px 30px" th:text="${log}" th:each="log:${logs}"></h4>
 
 <hr/>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="/druid" style="font-size: 18px">总监视台</a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="/friend"style="font-size: 18px">我的朋友信息</a>
+<a href="/friend.html"style="font-size: 18px">我的朋友信息</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/logall"style="font-size: 18px">全部ip访问日志</a>
 </body>
 </html>
