@@ -17,7 +17,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Boolean insertFriend(Friend friend) {
-        System.out.println("111"+friend.toString());
+
         Boolean isSuccess = friendMapper.insertFriend(
                 friend.getCollegeName(),
                 friend.getMajor(),

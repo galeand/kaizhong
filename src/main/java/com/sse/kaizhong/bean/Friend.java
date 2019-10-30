@@ -9,7 +9,19 @@ public class Friend {
     private String graduateSchool_academy;//研究生学院
     private String graduateSchool_major;//研究生专业
     private String moreInfo;
+    private Integer id; //自增id;
 
+    public Friend(String collegeName, String major, String name, String relationship, String graduateSchool, String graduateSchool_academy, String graduateSchool_major, String moreInfo, Integer id) {
+        this.collegeName = collegeName;
+        this.major = major;
+        this.name = name;
+        this.relationship = relationship;
+        this.graduateSchool = graduateSchool;
+        this.graduateSchool_academy = graduateSchool_academy;
+        this.graduateSchool_major = graduateSchool_major;
+        this.moreInfo = moreInfo;
+        this.id = id;
+    }
 
     public Friend(String collegeName, String major, String name, String relationship, String graduateSchool, String graduateSchool_academy, String graduateSchool_major, String moreInfo) {
         this.collegeName = collegeName;
@@ -39,6 +51,14 @@ public class Friend {
                 ", graduateSchool_major='" + graduateSchool_major + '\'' +
                 ", moreInfo='" + moreInfo + '\'' +
                 '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCollegeName() {

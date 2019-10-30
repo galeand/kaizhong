@@ -10,9 +10,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
@@ -33,6 +31,10 @@ public class IocContextTest {
         for (String name : names) {
             System.out.println(name);
         }
+
+        // Collections类有一个private constructor，抑制默认构造函数，确保不可实例化
+//        Collections collections = new Collections();
+
     }
 
     @Test
@@ -61,7 +63,7 @@ public class IocContextTest {
     public void testStream(){
         List<Integer> list = new ArrayList<>();
         Integer[] arr = {1,5,13,56,23,-3,50,223,-4,-100,999};
-//        List<Integer> list1 = Arrays.stream(arr).boxed().collect(Collectors.toList());
+        List<Integer> list1 = Arrays.stream(arr).collect(Collectors.toList());
 
 
 
@@ -86,6 +88,7 @@ public class IocContextTest {
         // 2.使用IntStream中的boxed()装箱。将IntStream转换成Stream<Integer>。
         // 3.使用Stream的collect()，将Stream<T>转换成List<T>，因此正是List<Integer>。
 
+
         // int[] 转 Integer[]
         Integer[] integers1 = Arrays.stream(data).boxed().toArray(Integer[]::new);
         // 前两步同上，此时是Stream<Integer>。
@@ -97,6 +100,7 @@ public class IocContextTest {
         Integer[] integers2 = list1.toArray(new Integer[0]);
         //  调用toArray。传入参数T[] a。这种用法是目前推荐的。
         // List<String>转String[]也同理。
+
 
         // List<Integer> 转 int[]
         int[] arr1 = list1.stream().mapToInt(Integer::valueOf).toArray();
