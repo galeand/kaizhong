@@ -5,6 +5,7 @@ import com.sse.kaizhong.service.FriendService;
 import com.sse.kaizhong.service.IpRecordService;
 import com.sse.kaizhong.service.KaizhongService;
 import com.sse.kaizhong.service.impl.IpRecordServiceImpl;
+import com.sse.kaizhong.service.impl.KaizhongServiceImpl02;
 import com.sse.kaizhong.uitl.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,9 @@ public class KaizhongController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Qualifier("service02")
+//    @Qualifier("service02")
     @Autowired
-    private KaizhongService queryService;
+    private KaizhongServiceImpl02 queryService;
 
     @Autowired
     private FriendService friendService;
@@ -111,7 +112,7 @@ public class KaizhongController {
     }
 
 
-    @RequestMapping("/kz")
+    @RequestMapping("/kaizhong")
     public String queryFromKaizhong(Map<String, Object> map,
                                     @RequestParam("name") String name,
                                     HttpServletRequest request) {
@@ -119,67 +120,23 @@ public class KaizhongController {
             map.put("students","输入不能为空!");
             return "index";
         }
-        String choose = "";
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time = df.format(new Date());
-        logger.info("查询关键字:{}", name);
-        logger.info("查询时间:{}",time);
-        //记录查询ip，对应解析ip地址对应的物理地址
-        String ip = IpUtil.getIpAddr(request);
-        logger.info("请求的ip:{}", ip);
-        List<String> deviceInfoList = IpUtil.getDeviceAndOS(request);
-        logger.info("请求的设备信息:{}", deviceInfoList);
-        if (!ipRecordService.execute(ip, name, deviceInfoList)){
-            logger.info("记录访问ip失败,请求:{}", request);
-        }
+        List<Object> objects = new ArrayList<>();
+        objects.add(name);
+        objects.add(request);
+        List<Object> res = queryService.beforeExecute(objects);
+        res.add(name);
 
-        name = name.trim();
-        if (name.endsWith("大学") || name.endsWith("学院")) {
-            choose = "学校";
-        } else if (name.endsWith("专业")) {
-            choose = "专业";
-        } else {
-            choose = "名字";
-        }
-
-        switch (choose) {
-            case "学校": {
-                List<String> list = queryService.queryStudentByCollege(name);
-                if (list.size() > 0) {
-                    map.put("num", "<共查询到" + list.get(0) + "条记录>");
-                    list.remove(0);
-                    map.put("students", list);
-                } else {
-                    map.put("students", "大学名称错误或该届学生无报该学校！");
-                }
-                break;
-            }
-            case "名字": {
-                List<String> list = queryService.queryStudentByName(name);
-                if (list.size() > 0) {
-                    map.put("num", "<共查询到" + list.get(0) + "条记录>");
-                    list.remove(0);
-                    map.put("students", list);
-                } else {
-                    map.put("students", Arrays.asList("查无此人，请核实后再次查询！"));
-                }
-                break;
-            }
-            case "专业": {
-                name = name.substring(0, name.length() - 2);
-                System.out.println("专业：" + name);
-                List<String> list = queryService.queryStudentByMajor(name);
-                if (list.size() > 0) {
-                    map.put("num", "<共查询到" + list.get(0) + "条记录>");
-                    list.remove(0);
-                    map.put("students", list);
-                } else {
-                    map.put("students", Arrays.asList("专业输入错误或该届学生无报该专业！"));
-                }
-                break;
-            }
-            default:
-                break;
+        List<Object> ret = queryService.execute(res);
+        if (ret.size() == 2){
+            //正常返回，查询到结果
+            map.put("num", ret.get(0));
+            map.put("students", ret.get(1));
+        }else if (ret.size() == 1){
+            //未查询到结果
+            map.put("students", ret.get(0));
+        }else {
+            //兜底
+            map.put("students", "输入有误，请重新输入！");
         }
 
         return "index";
