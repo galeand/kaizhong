@@ -57,7 +57,7 @@ public interface UserAccessTableMapper {
             @Result(column = "device", property = "device"),
             @Result(column = "os", property = "os")
     })
-    @Select("SELECT ip,ip_real_address,created_at,key_word,device,os FROM user_access ORDER BY created_at DESC LIMIT 5;")
+    @Select("SELECT ip,ip_real_address,created_at,key_word,device,os,possible_person_name FROM user_access ORDER BY created_at DESC LIMIT 5;")
     List<UserAccessTable> selectLately();
 
     /**
@@ -77,6 +77,6 @@ public interface UserAccessTableMapper {
             @Result(column = "device", property = "device"),
             @Result(column = "os", property = "os")
     })
-    @Select("SELECT ip,ip_real_address,created_at,key_word,device,os FROM user_access ORDER BY created_at DESC;")
+    @Select("SELECT ip,ip_real_address,created_at,key_word,device,os,possible_person_name FROM user_access ORDER BY created_at DESC;")
     List<UserAccessTable> selectAll();
 }

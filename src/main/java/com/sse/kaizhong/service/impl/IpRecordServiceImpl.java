@@ -87,7 +87,9 @@ public class IpRecordServiceImpl implements IpRecordService {
             String realAddress = addressList.stream().collect(Collectors.joining("-"));
             String device = val.getDevice();
             String os = val.getOs();
-            String res = "【关键字:" + keyWord + ",查询时间:" + time + ",访问ip:" + ip + ",ip对应的物理地址:" + realAddress + ",访问设备:" + device + ",设备系统:" + os + "】";
+            String possiblePerson = val.getPossiblePersonName();
+            String res = "【关键字:" + keyWord + ",查询时间:" + time + ",访问ip:" + ip + ",ip对应的物理地址:" + realAddress + ",访问设备:" + device + ",设备系统:" + os + ",可能访问人:"+possiblePerson+
+            "】";
             ret.add(res);
         });
         return ret;
@@ -111,7 +113,9 @@ public class IpRecordServiceImpl implements IpRecordService {
             String realAddress = addressList.stream().collect(Collectors.joining("-"));
             String device = val.getDevice();
             String os = val.getOs();
-            String res = "【关键字:" + keyWord + ",查询时间:" + time + ",访问ip:" + ip + ",ip对应的物理地址:" + realAddress + ",访问设备:" + device + ",设备系统:" + os + "】";
+            String possiblePerson = val.getPossiblePersonName();
+            String res = "【关键字:" + keyWord + ",查询时间:" + time + ",访问ip:" + ip + ",ip对应的物理地址:" + realAddress + ",访问设备:" + device + ",设备系统:" + os + ",可能访问人:"+possiblePerson+
+                    "】";
             ret.add(res);
         });
         return ret;

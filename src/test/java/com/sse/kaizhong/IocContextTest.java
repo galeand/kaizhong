@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -122,6 +123,24 @@ public class IocContextTest {
         List<String> list3 = Arrays.asList(strings1);
         // List<String> 转 String[]
         String[] strings2 = list3.toArray(new String[0]);
+    }
+
+    /**
+     * 生成流的几种常见方式
+     */
+    @Test
+    public void test03(){
+        //数组转list，list转数组
+        String[] testArr = {"1", "2", "3"};
+
+        // 独立的数字生成流
+        Stream stream = Stream.of("a", "b", "c");
+        // 通过数组生成流
+        String[] strArr = {"a", "b", "c"};
+        stream = Stream.of(strArr);
+        stream = Arrays.stream(strArr);
+        // Collections接口生成流
+        stream = Arrays.asList(strArr).stream();
     }
 
 }
