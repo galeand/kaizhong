@@ -2,11 +2,14 @@ package com.sse.kaizhong.uitl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @name: IpUtil
@@ -16,6 +19,9 @@ import java.util.List;
  */
 public class IpUtil {
     private static final Logger logger = LoggerFactory.getLogger(IpUtil.class);
+    private static final String URL = "http://ip.ws.126.net/ipquery?format=js&ip=%s";
+    private static final Pattern RES_SPLIT_REG = Pattern.compile("var[\\s\\S]*localAddress=(.*)");
+
 
     public static String getIpAddr(HttpServletRequest request){
         String ipAddr = null;
@@ -70,5 +76,34 @@ public class IpUtil {
         list.add(os);
         list.add(device);
         return list;
+    }
+
+    public static String getAddressById(String ip){
+        if (StringUtils.isEmpty(ip)){
+            return "ip为空";
+        }
+        String format = String.format(URL, ip);
+        logger.info("format:{}",format);
+        String re = SimpleHttpUtil.get(format);
+        return re;
+    }
+
+    /**
+     * 使用正则匹配解析addressById
+     *
+     * @param addressById eg:
+     *           var lo="黑龙江省", lc="哈尔滨市";
+     *           var localAddress={city:"哈尔滨市", province:"黑龙江省"}
+     * @return
+     */
+    public static String addressAnalysis(String addressById){
+        Matcher matcher = RES_SPLIT_REG.matcher(addressById);
+        String address="";
+        //"var lo=\\\"重庆市\\\", lc=\\\"江津区\\\";\\r\\nvar localAddress={city:\\\"江津区\\\", province:\\\"重庆市\\\"}\"
+        //里面有find()和matches()两个方法，find部分匹配和完全匹配时返回true，matches只有完全匹配才返回true
+        if (matcher.find()){
+            address = matcher.group(1);
+        }
+        return address;
     }
 }

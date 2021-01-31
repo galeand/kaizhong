@@ -39,7 +39,7 @@ public class SimpleHttpUtil {
                 if (connection.getResponseCode() == 200) {
                     is = connection.getInputStream();
                     // 封装输入流is，并指定字符集
-                    br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    br = new BufferedReader(new InputStreamReader(is, "GBK"));
                     // 存放数据
                     StringBuffer sbf = new StringBuffer();
                     String temp = null;
