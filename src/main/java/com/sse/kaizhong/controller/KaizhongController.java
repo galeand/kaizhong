@@ -95,20 +95,14 @@ public class KaizhongController {
     }
 
     @RequestMapping("/friend")
-    public String getMyFriendInfo(@RequestParam("user") String user,
-                                  @RequestParam("pwd") String pwd,
-                                  Map<String, Object> map) {
-        boolean session = false;
-        if (session || user.equals("admin") && pwd.equals("asd123") ) {
-            session = true;
-            List<String> list = friendService.getFriends();
-            list.remove(0);//第一个存的有多少条记录
-            list.forEach(friend -> {
-                map.put("friends", list);
-            });
-            return "friends";
-        }
-        return "friendlogin";
+    public String getMyFriendInfo(Map<String, Object> map) {
+        List<String> list = friendService.getFriends();
+        // 第一个存的有多少条记录
+        list.remove(0);
+        list.forEach(friend -> {
+            map.put("friends", list);
+        });
+        return "friends";
     }
 
 
@@ -155,7 +149,7 @@ public class KaizhongController {
                         @RequestParam("pwd") String pwd,
                         Map<String, Object> logsMap) {
         boolean session = false;
-        if (session || user.equals("admin") && pwd.equals("12345") ) {
+        if (session || user.equals("admin") && pwd.equals("asd123") ) {
             //简单做了一个临时登录会话
             session = true;
             List<String> list = ipRecordService.getLately();
